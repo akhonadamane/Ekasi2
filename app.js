@@ -12,7 +12,7 @@ function searchProduct() {
             let availableItems = Math.floor(Math.random() * 45) + 1;
             let distance = (Math.random() * 9.8 + 0.2).toFixed(1);
             let logistics = getLogistics(distance);
-            let price = (Math.random() * 1000).toFixed(2);
+            let price = (Math.random() * 45 + 5).toFixed(2);
 
             let row = document.createElement('tr');
             row.innerHTML = `
