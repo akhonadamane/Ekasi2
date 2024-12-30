@@ -3,14 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
     <link rel="stylesheet" href="styles.css">
-    <title>Ekasi Makethe - Product Search</title>
 </head>
 <body>
     <div class="container">
-        <h1>Ekasi Makethe</h1>
-        <button id="voiceSearchBtn" onclick="startVoiceSearch()">Search for the product to buy</button>
+        <h1>Product Search</h1>
+        <label for="product-name">Enter Product Name:</label>
+        <input type="text" id="product-name" placeholder="Say or type the product name" oninput="searchProduct()">
+        <div id="voice-input">
+            <button onclick="startVoiceRecognition()">Start Voice Recognition</button>
+        </div>
+
+        <table id="product-table" style="display:none;">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Seller</th>
+                    <th>Available</th>
+                    <th>Distance (KM)</th>
+                    <th>Logistics</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody id="product-list"></tbody>
+        </table>
     </div>
+
     <script src="app.js"></script>
 </body>
 </html>

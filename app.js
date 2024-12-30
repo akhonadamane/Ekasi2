@@ -1,87 +1,89 @@
-const products = [
-    "phone - new",
-    "phone - second hand",
-    "umbhaco",
-    "set of ear rings or amacici",
-    "Maize meal",
-    "Rice",
-    "Bread",
-    "Cooking oil",
-    "Sugar",
-    "Tea",
-    "coffee",
-    "1 litre milk",
-    "2 litre milk",
-    "Fresh produce (vegetables and fruits)",
-    "apples",
-    "oranges",
-    "bananas",
-    "mangoes",
-    "pineapples",
-    "tomatoes",
-    "onion",
-    "carrots",
-    "spinach",
-    "cabbage",
-    "Meat and poultry",
-    "Cleaning supplies (detergents, soaps)",
-    "Toiletries (toothpaste, shampoo, toilet paper)",
-    "toilet paper singles",
-    "toilet paper 4's",
-    "toilet paper 20's",
-    "Cooking utensils and basic kitchenware",
-    "Soft drinks",
-    "Bottled water",
-    "Alcoholic beverages (beer, spirits, wine)",
-    "Chips",
-    "Biscuits",
-    "Sweets",
-    "chocolates",
-    "Hair care products (shampoos, conditioners, hair relaxers)",
-    "Skincare products (lotions, creams)",
-    "Diapers",
-    "Baby food",
-    "Baby toiletries",
-    "Mobile phones accessories",
-    "phone cover",
-    "Prepaid airtime and data bundles",
-    "Everyday wear",
-    "jeans",
-    "School uniform"
-];
+// List of common South African first names
+const sellerNames = ["Zoe", "Tshepo", "Mandisa", "Sarah", "Ntombi", "Joe", "Gugu", "Mpho", "Nathan", "Imran", "Emma", "Kayla", "Khathu", "Zamo", "Zama", "Hlukelo", "Dakalo", "Mulalo", "Ayanda", "Dudu", "Jabu", "Musa", "Zandile", "Zodwa", "Thabo", "Cyril", "Kgomotso"];
 
-function startVoiceSearch() {
-    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-    recognition.lang = "en-US";
+// Product Search Simulation
+function searchProduct() {
+    let productName = document.getElementById('product-name').value;
+    if (productName) {
+        let productList = document.getElementById('product-list');
+        productList.innerHTML = ''; // Clear any previous entries
+        for (let i = 0; i < 5; i++) {
+            let randomSeller = sellerNames[Math.floor(Math.random() * sellerNames.length)];
+            let availableItems = Math.floor(Math.random() * 45) + 1;
+            let distance = (Math.random() * 9.8 + 0.2).toFixed(1);
+            let logistics = getLogistics(distance);
+            let price = (Math.random() * 1000).toFixed(2);
 
-    recognition.onstart = () => {
-        alert("Voice recognition started. Please speak the product name.");
-    };
-
-    recognition.onspeechend = () => {
-        recognition.stop();
-    };
-
-    recognition.onresult = (event) => {
-        const userInput = event.results[0][0].transcript.toLowerCase();
-        processVoiceInput(userInput);
-    };
-
-    recognition.onerror = (err) => {
-        alert("Error occurred: " + err.error);
-    };
-
-    recognition.start();
-}
-
-function processVoiceInput(userInput) {
-    const matchedProducts = products.filter((product) => product.toLowerCase().includes(userInput));
-
-    if (matchedProducts.length === 0) {
-        alert("Product not available now. The sellers will be notified of your desired product item.");
-        return;
+            let row = document.createElement('tr');
+            row.innerHTML = `
+                <td><a href="product-details.html?product=${productName}&seller=${randomSeller}&available=${availableItems}&distance=${distance}&logistics=${logistics}&price=${price}" target="_blank">${productName}</a></td>
+                <td>${randomSeller}</td>
+                <td>${availableItems}</td>
+                <td>${distance}</td>
+                <td>${logistics}</td>
+                <td>R ${price}</td>
+            `;
+            productList.appendChild(row);
+        }
+        document.getElementById('product-table').style.display = 'block';
     }
-
-    // Redirect to results.html or process the matched product display
-    alert("Products found: " + matchedProducts.join(", ")); // Placeholder
 }
+
+// Determine logistics based on distance
+function getLogistics(distance) {
+    if (distance <= 2) {
+        return "Walk to collect";
+    } else if (distance <= 6) {
+        return "Free delivery by bicycle";
+    } else {
+        return "R20 bicycle delivery fee";
+    }
+}
+
+// Voice recognition setup
+function startVoiceRecognition() {
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.start();
+
+    recognition.onresult = function(event) {
+        const productName = event.results[0][0].transcript;
+        document.getElementById('product-name').value = productName;
+        searchProduct();
+    };
+}
+
+// Handle form submission on Product Details page
+document.getElementById('payment-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    // Get selected payment methods
+    let selectedPayments = [];
+    document.querySelectorAll('input[name="payment-method"]:checked').forEach(function(checkbox) {
+        selectedPayments.push(checkbox.value);
+    });
+
+    // Get product details from URL params
+    let urlParams = new URLSearchParams(window.location.search);
+    let productDetails = `
+        Product: ${urlParams.get('product')}<br>
+        Seller: ${urlParams.get('seller')}<br>
+        Available: ${urlParams.get('available')}<br>
+        Distance: ${urlParams.get('distance')} km<br>
+        Logistics: ${urlParams.get('logistics')}<br>
+        Price: R ${urlParams.get('price')}
+    `;
+
+    // Display summary
+    document.getElementById('summary').style.display = 'block';
+    document.getElementById('summary-product').innerHTML = urlParams.get('product');
+    document.getElementById('summary-seller').innerHTML = urlParams.get('seller');
+    document.getElementById('summary-payment').innerHTML = selectedPayments.join(', ');
+
+    // Display product details
+    document.getElementById('product-name-detail').innerHTML = urlParams.get('product');
+    document.getElementById('seller-name-detail').innerHTML = urlParams.get('seller');
+    document.getElementById('available-detail').innerHTML = urlParams.get('available');
+    document.getElementById('distance-detail').innerHTML = urlParams.get('distance');
+    document.getElementById('logistics-detail').innerHTML = urlParams.get('logistics');
+    document.getElementById('price-detail').innerHTML = urlParams.get('price');
+});

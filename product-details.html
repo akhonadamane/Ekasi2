@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Product Details</h1>
+        <div id="product-info">
+            <p><strong>Product Name:</strong> <span id="product-name-detail"></span></p>
+            <p><strong>Seller:</strong> <span id="seller-name-detail"></span></p>
+            <p><strong>Available:</strong> <span id="available-detail"></span></p>
+            <p><strong>Distance:</strong> <span id="distance-detail"></span> km</p>
+            <p><strong>Logistics:</strong> <span id="logistics-detail"></span></p>
+            <p><strong>Price:</strong> R <span id="price-detail"></span></p>
+        </div>
+
+        <h2>Preferred Payment Methods:</h2>
+        <form id="payment-form">
+            <label><input type="checkbox" name="payment-method" value="Hand Scan linked to Ekasi eWallet"> Hand Scan linked to Ekasi eWallet</label><br>
+            <label><input type="checkbox" name="payment-method" value="Card payment"> Card payment</label><br>
+            <label><input type="checkbox" name="payment-method" value="Airtime Mobile Money"> Airtime Mobile Money</label><br>
+            <label><input type="checkbox" name="payment-method" value="PayPal"> PayPal</label><br>
+            <label><input type="checkbox" name="payment-method" value="Cash on Delivery"> Cash on Delivery</label><br><br>
+            <button type="submit">Submit</button>
+        </form>
+
+        <div id="summary" style="display:none;">
+            <h3>Summary:</h3>
+            <p><strong>Product:</strong> <span id="summary-product"></span></p>
+            <p><strong>Seller:</strong> <span id="summary-seller"></span></p>
+            <p><strong>Preferred Payment Methods:</strong> <span id="summary-payment"></span></p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
