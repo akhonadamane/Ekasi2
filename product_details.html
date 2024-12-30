@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Product Details</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Product Details</h1>
+        <div class="details">
+            <p><strong>Product Name:</strong> Placeholder Name</p>
+            <p><strong>Seller:</strong> Placeholder Seller</p>
+            <p><strong>Available Quantity:</strong> Placeholder Quantity</p>
+            <p><strong>Distance:</strong> Placeholder Distance</p>
+            <p><strong>Logistics:</strong> Placeholder Logistics</p>
+            <p><strong>Price:</strong> Placeholder Price</p>
+        </div>
+        <h2>Preferred Payment Methods:</h2>
+        <form>
+            <input type="checkbox" id="handScan" name="payment" value="Hand Scan">
+            <label for="handScan">Hand Scan linked to Ekasi eWallet</label><br>
+            <input type="checkbox" id="card" name="payment" value="Card Payment">
+            <label for="card">Card Payment</label><br>
+            <input type="checkbox" id="mobileMoney" name="payment" value="Airtime Mobile Money">
+            <label for="mobileMoney">Airtime Mobile Money</label><br>
+            <input type="checkbox" id="paypal" name="payment" value="PayPal">
+            <label for="paypal">PayPal</label><br>
+            <input type="checkbox" id="cash" name="payment" value="Cash on Delivery">
+            <label for="cash">Cash on Delivery</label><br><br>
+            <button type="button" onclick="submitPayment()">Submit</button>
+        </form>
+        <div id="summary"></div>
+    </div>
+    <script>
+        function submitPayment() {
+            const checkboxes = document.querySelectorAll('input[name="payment"]:checked');
+            const selectedMethods = Array.from(checkboxes).map(cb => cb.value);
+            document.getElementById("summary").innerHTML = `
+                <h2>Summary:</h2>
+                <p><strong>Selected Product:</strong> Placeholder Name</p>
+                <p><strong>Preferred Payment Methods:</strong> ${selectedMethods.join(", ")}</p>
+            `;
+        }
+    </script>
+</body>
+</html>
