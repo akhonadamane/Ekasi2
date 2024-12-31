@@ -35,8 +35,10 @@ function getLogistics(distance) {
         return "Walk to collect";
     } else if (distance <= 6) {
         return "Free delivery by bicycle";
-    } else {
+    } else if (distance <= 10) {
         return "R20 bicycle delivery fee";
+    } else {
+        return "Independent Corrier Service";
     }
 }
 
